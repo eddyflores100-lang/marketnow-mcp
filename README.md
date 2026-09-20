@@ -97,7 +97,7 @@ npx marketnow-mcp
 
 ```bash
 # Scam-check any domain — free, no key
-curl -s 'https://www.marketnow.site/api/scam-check?url=example.com'
+curl -s 'https://www.marketnow.site/api/scam-check?domain=example.com'
 
 # Current CA public key for Agent Trust Card verification
 curl -s 'https://www.marketnow.site/api/atc?action=ca-key'
