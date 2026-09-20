@@ -50,7 +50,7 @@ Ask the agent: "list the marketnow tools" — expect 9 tools (`marketnow_verify_
 Or test without any client:
 
 ```bash
-curl -s 'https://www.marketnow.site/api/scam-check?url=github.com'
+curl -s 'https://www.marketnow.site/api/scam-check?domain=github.com'
 ```
 
 A JSON risk report with score and reasons means the service is healthy.
