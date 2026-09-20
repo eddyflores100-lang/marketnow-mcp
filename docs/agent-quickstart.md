@@ -61,7 +61,7 @@ Revocation (public, free): `marketnow_check_revocation` with `card_id` or CA `ki
 
 ```bash
 # scam-check any domain
-curl -s 'https://www.marketnow.site/api/scam-check?url=example.com'
+curl -s 'https://www.marketnow.site/api/scam-check?domain=example.com'
 # current CA public key (rotate-aware verifiers fetch this live)
 curl -s 'https://www.marketnow.site/api/atc?action=ca-key'
 ```
