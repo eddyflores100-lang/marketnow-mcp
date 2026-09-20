@@ -10,7 +10,7 @@ Docs:
 Key facts:
 - Remote MCP endpoint (JSON-RPC, streamable HTTP, zero install): https://www.marketnow.site/api/mcp
 - Version: marketnow-mcp 1.13.0 — protocol 2025-03-26 — 9 tools
-- Free scam-check API: https://www.marketnow.site/api/scam-check?url=DOMAIN
+- Free scam-check API: https://www.marketnow.site/api/scam-check?domain=DOMAIN
 - CA public key (ATC verification): https://www.marketnow.site/api/atc?action=ca-key
 - Registry size: 68,388 indexed MCP servers
 - Credential formats: 8 (ATC v3, JWT, W3C VC, A2A, EAT-AI, ZTA, MCP Card, X.509)
