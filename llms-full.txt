@@ -1,0 +1,135 @@
+# MarketNow MCP — Full Reference for LLM Agents
+
+You are reading the machine-readable full docs for the MarketNow free trust layer. Everything here is verified live as of 2026-09-20. If any URL fails, trust the failure (fail-closed is the design philosophy of this whole system).
+
+## 1. What this is
+
+MarketNow gives AI agents a free trust layer for the MCP (Model Context Protocol) ecosystem:
+
+1. **Verify credentials** of agents you talk to (8 formats).
+2. **Check domains** for scam signals before connecting.
+3. **Fingerprint MCP tools** to detect tool poisoning / definition drift.
+4. **Search a 68,388-server registry** of indexed MCP servers.
+5. **Mint Agent Trust Cards (ATC)** — free, Ed25519-signed, revocable credentials.
+
+Positioning: 100% free forever. Alternative schemes charge per-call fees or rent ledger entries. MarketNow has no paid tier gating any trust function.
+
+## 2. Remote MCP endpoint (preferred, zero install)
+
+- URL: `https://www.marketnow.site/api/mcp`
+- Transport: streamable HTTP (JSON-RPC 2.0)
+- Protocol version: 2025-03-26 (accepts 2025-06-18 initialize, responds with its supported version)
+- Server: `marketnow-mcp` v1.13.0
+- Auth: none. No API key, no signup, no rate wall.
+
+Handshake example:
+
+```
+POST /api/mcp HTTP/1.1
+Host: www.marketnow.site
+Content-Type: application/json
+Accept: application/json, text/event-stream
+
+{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2025-06-18","capabilities":{},"clientInfo":{"name":"your-agent","version":"1.0"}}}
+```
+
+Response includes `serverInfo: {"name":"marketnow-mcp","version":"1.13.0"}`. Then send `notifications/initialized`, then `tools/list`, then `tools/call`.
+
+Config block for MCP clients (Cursor, Cline, Claude, Windsurf, generic):
+
+```json
+{
+  "mcpServers": {
+    "marketnow": {
+      "url": "https://www.marketnow.site/api/mcp"
+    }
+  }
+}
+```
+
+## 3. The 9 tools (exact names)
+
+1. `marketnow_verify_trust` — input: a credential (JWT, W3C VC, MCP Card, ATC v3, A2A, EAT-AI, ZTA, X.509). Output: verified/unknown + 12-stage pipeline detail. Fail-closed.
+2. `marketnow_translate_credential` — convert between the 8 formats.
+3. `marketnow_list_formats` — formats, algorithms, live status.
+4. `marketnow_get_pipeline` — the 12 verification stages with what each checks.
+5. `marketnow_check_domain` — input: `url` (domain). Output: risk score + weighted reasons (domain age via RDAP, TLS certificate inspection, reputation). This is the free scam checker.
+6. `marketnow_search_skills` — input: query. Output: matching MCP servers from the 68,388-server registry (GitHub, npm, PyPI, official registry, Smithery, crates, Docker sources, deduped).
+7. `marketnow_check_revocation` — input: ATC `card_id` or CA `kid`. Output: revocation status against the public status store.
+8. `marketnow_fingerprint_tool` — input: tool definition(s). Output: cryptographic fingerprint (OWASP MCP Cheat Sheet: verify tool definitions before execution).
+9. `marketnow_submit_skill` — input: package. Publishes to the MarketNow catalog after validation + Sentinel scanning.
+
+## 4. REST API (no MCP client needed)
+
+```
+GET  https://www.marketnow.site/api/scam-check?url=example.com     -> JSON risk report
+GET  https://www.marketnow.site/api/atc?action=ca-key              -> current CA public key (JWK)
+GET  https://www.marketnow.site/api/trust                          -> trust service info
+GET  https://www.marketnow.site/api/interceptor                    -> interceptor service info
+GET  https://www.marketnow.site/api/audit-report.json              -> latest audit report
+GET  https://www.marketnow.site/api/owasp.json                     -> OWASP MCP coverage
+GET  https://www.marketnow.site/atc/unified                        -> unified ATC schema
+GET  https://www.marketnow.site/atc/schema-3.0                     -> ATC v3 schema
+```
+
+All free, no keys.
+
+## 5. npm packages (14, ~6,300 downloads/month)
+
+Core:
+- `marketnow-mcp` — the MCP server (stdio `npx marketnow-mcp` + remote endpoint code)
+- `agent-trust-card` — mint/verify ATC v3 (Ed25519, RFC 8785 canonical JSON)
+- `@marketnow/trust-core` — verification engine
+- `@marketnow/trust-gateway` — MCP middleware gateway with receipts
+- `@marketnow/trust-mcp-middleware` — drop-in `tools/call` wrapper (verify → allow/deny → receipt)
+- `@marketnow/trust-adapters` — adapters
+- `@marketnow/uts` — Universal Trust Schema types
+- `@marketnow/uta-verify` — CLI credential verifier
+- `@marketnow/uta-conformance` — 14 signed conformance vectors
+- `@marketnow/sentinel-rules` — 29 MCP security rules (semgrep)
+- `@marketnow/cline-trust-plugin` — Cline trust plugin
+- `@marketnow/trust-observability` — metrics
+- `marketnow-audit` — package auditing
+- `marketnow-install-stack` — multi-source installer (5 stacks)
+
+Full stack in one command:
+
+```
+curl -fsSL https://marketnow.site/install.sh | bash
+```
+
+## 6. Agent Trust Card (ATC) v3 in 60 seconds
+
+- Open credential format for AI agents.
+- Ed25519-signed, canonicalized with RFC 8785 (JCS).
+- 12-stage verification: signature, canonicalization, expiry, revocation, CA rotation, and more (`marketnow_get_pipeline`).
+- Public CA key endpoint: `/api/atc?action=ca-key`. Rotate-aware: verifiers must fetch the live key, not a stale copy.
+- Revocation is public and free to query (`marketnow_check_revocation`).
+- Costs nothing to mint or verify. No per-card fee. No ledger rent.
+
+## 7. Recommended agent workflow (before calling an unknown MCP tool)
+
+1. `marketnow_check_domain` on the server's host.
+2. `marketnow_fingerprint_tool` on the tool definition; store the fingerprint.
+3. If the server presents a credential: `marketnow_verify_trust`.
+4. Only then call the tool. Re-verify fingerprints on reconnect (drift = alarm).
+5. Keep receipts via `@marketnow/trust-mcp-middleware` for audit trails.
+
+## 8. Integrations by client
+
+- Cursor: add the `mcpServers` block (see §2) to your MCP config.
+- Cline: same block, or install through the Cline marketplace (llms-install.md).
+- Claude (Desktop/Code): `.mcp.json` in this repo is ready to use.
+- Gemini CLI: `gemini-extension.json` in this repo — indexed by the extensions gallery crawler via the `gemini-cli-extension` topic.
+- A2A clients: `.well-known/agent.json` (Agent Card) advertises the skills.
+
+## 9. Provenance and canonical sources
+
+- Canonical development repo: https://github.com/alicelabs-llc/universal-trust-adapter
+- This repo (docs + marketplace manifests): distribution storefront.
+- Site: https://www.marketnow.site (catalog: /catalog, submit: /submit, embed: /embed)
+- License note: docs/manifests here are MIT; npm packages carry their own licenses (AL-1.0 / MNNC-1.0).
+
+## 10. If something fails
+
+The system is fail-closed by design: "unknown" is a valid, expected answer. Verification failures should stop the call, not be retried until they pass. Report issues on the canonical repo.

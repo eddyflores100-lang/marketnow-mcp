@@ -1,0 +1,45 @@
+{
+  "name": "MarketNow Trust MCP",
+  "description": "Free trust layer for AI agents: credential verification (8 formats), domain scam-checking, MCP tool fingerprinting, and a 68k+ server registry. 100% free, no signup.",
+  "version": "1.13.0",
+  "url": "https://www.marketnow.site/api/mcp",
+  "mcpEndpoint": "https://www.marketnow.site/api/mcp",
+  "protocol": "MCP/2025-03-26 (JSON-RPC over streamable HTTP)",
+  "provider": {
+    "organization": "AliceLabs",
+    "url": "https://www.marketnow.site"
+  },
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "stateTransitionHistory": false
+  },
+  "defaultInputModes": ["application/json"],
+  "defaultOutputModes": ["application/json", "text/event-stream"],
+  "skills": [
+    {
+      "id": "verify-trust",
+      "name": "Verify agent credentials",
+      "description": "Verify JWT, W3C VC, MCP Card, ATC v3, A2A, EAT-AI, ZTA, or X.509 credentials through a 12-stage fail-closed pipeline.",
+      "tags": ["trust", "credentials", "verification", "security"]
+    },
+    {
+      "id": "check-domain",
+      "name": "Domain scam check",
+      "description": "Risk score + weighted reasons for any domain (RDAP age, TLS inspection, reputation).",
+      "tags": ["scam", "domain", "security", "risk"]
+    },
+    {
+      "id": "fingerprint-tool",
+      "name": "MCP tool fingerprinting",
+      "description": "Cryptographic fingerprints of MCP tool definitions to detect tool poisoning and drift.",
+      "tags": ["mcp", "fingerprint", "tool-poisoning"]
+    },
+    {
+      "id": "search-registry",
+      "name": "MCP server registry search",
+      "description": "Search 68,388 indexed MCP servers across GitHub, npm, PyPI and more.",
+      "tags": ["registry", "search", "mcp"]
+    }
+  ]
+}

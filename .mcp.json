@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "marketnow": {
+      "type": "http",
+      "url": "https://www.marketnow.site/api/mcp"
+    }
+  }
+}

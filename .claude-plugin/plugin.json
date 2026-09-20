@@ -1,0 +1,10 @@
+{
+  "name": "marketnow",
+  "version": "1.13.0",
+  "description": "Free trust layer for MCP agents: verify credentials (8 formats), scam-check domains, fingerprint tools, search a 68k+ MCP server registry. No API keys, no fees.",
+  "author": { "name": "AliceLabs" },
+  "homepage": "https://www.marketnow.site",
+  "license": "MIT",
+  "repository": "https://github.com/alicelabs-llc/universal-trust-adapter",
+  "keywords": ["mcp", "trust", "security", "agents", "free"]
+}

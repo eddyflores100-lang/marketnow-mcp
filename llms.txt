@@ -1,0 +1,35 @@
+# MarketNow MCP
+
+> Free trust layer for AI agents using MCP (Model Context Protocol). Verify credentials, check domains, fingerprint tools — before your agent executes anything. 100% free, no signup, no API keys.
+
+Docs:
+- Quickstart + client configs: README.md
+- Full package + API reference: llms-full.txt
+- Guided install for Cline: llms-install.md
+
+Key facts:
+- Remote MCP endpoint (JSON-RPC, streamable HTTP, zero install): https://www.marketnow.site/api/mcp
+- Version: marketnow-mcp 1.13.0 — protocol 2025-03-26 — 9 tools
+- Free scam-check API: https://www.marketnow.site/api/scam-check?url=DOMAIN
+- CA public key (ATC verification): https://www.marketnow.site/api/atc?action=ca-key
+- Registry size: 68,388 indexed MCP servers
+- Credential formats: 8 (ATC v3, JWT, W3C VC, A2A, EAT-AI, ZTA, MCP Card, X.509)
+- Verification pipeline: 12 stages, fail-closed
+- npm: 14 packages, ~6,300 downloads/month (lead: marketnow-mcp, agent-trust-card)
+- One-shot installer: curl -fsSL https://marketnow.site/install.sh | bash
+- Site: https://www.marketnow.site — catalog: /catalog — submit: /submit
+- Canonical development repo: https://github.com/alicelabs-llc/universal-trust-adapter
+
+Tools (remote endpoint):
+- marketnow_verify_trust: verify any of 8 credential formats
+- marketnow_translate_credential: convert between formats
+- marketnow_list_formats: formats + algorithms + status
+- marketnow_get_pipeline: the 12 verification stages
+- marketnow_check_domain: risk score + reasons for any domain
+- marketnow_search_skills: search 68k+ MCP servers
+- marketnow_check_revocation: ATC card_id / CA kid revocation status
+- marketnow_fingerprint_tool: cryptographic hash of MCP tool definitions
+- marketnow_submit_skill: publish to the MarketNow catalog (Sentinel-scanned)
+
+Optional:
+- Everything is free by design: no per-call fees, no ledger rent, no paid tier gating trust.
