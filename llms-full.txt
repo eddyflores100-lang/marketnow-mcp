@@ -62,7 +62,7 @@ Config block for MCP clients (Cursor, Cline, Claude, Windsurf, generic):
 ## 4. REST API (no MCP client needed)
 
 ```
-GET  https://www.marketnow.site/api/scam-check?url=example.com     -> JSON risk report
+GET  https://www.marketnow.site/api/scam-check?domain=example.com     -> JSON risk report
 GET  https://www.marketnow.site/api/atc?action=ca-key              -> current CA public key (JWK)
 GET  https://www.marketnow.site/api/trust                          -> trust service info
 GET  https://www.marketnow.site/api/interceptor                    -> interceptor service info
