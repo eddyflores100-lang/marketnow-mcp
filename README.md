@@ -1,8 +1,10 @@
 # MarketNow MCP — Free Trust Layer for AI Agents
 
+[![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/alicelabs-llc/marketnow) [![M8ven Score](https://m8ven.ai/badge/mcp/eddyflores100-lang/marketnow-mcp)](https://m8ven.ai/mcp/eddyflores100-lang/marketnow-mcp)
+
 > Verify **who** you're talking to and **what** you're about to call — before your agent executes anything. 100% free. No fees. No signup. No API keys.
 
-**Remote endpoint (zero install):** `https://www.marketnow.site/api/mcp` — `marketnow-mcp v1.13.0`, 9 tools, JSON-RPC over streamable HTTP.
+**Remote endpoint (zero install):** `https://www.marketnow.site/api/mcp` — `marketnow-mcp v1.15.0`, 9 tools, JSON-RPC over streamable HTTP.
 
 ```bash
 curl -s https://www.marketnow.site/api/mcp \
