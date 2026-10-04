@@ -1,6 +1,6 @@
 # MarketNow MCP — Free Trust Layer for AI Agents
 
-[![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/alicelabs-llc/marketnow) [![M8ven Score](https://m8ven.ai/badge/mcp/eddyflores100-lang/marketnow-mcp)](https://m8ven.ai/mcp/eddyflores100-lang/marketnow-mcp)
+[![Listed on mcpservers.org](https://mcpservers.org/badge.svg)](https://mcpservers.org/servers/alicelabs-llc/marketnow) [![M8ven Score](https://m8ven.ai/badge/mcp/eddyflores100-lang-marketnow-mcp-1a25a3?v=24ec41ff23ef52d3e554f6723df68a42)](https://m8ven.ai/mcp/eddyflores100-lang-marketnow-mcp-1a25a3?s=readme)
 
 > Verify **who** you're talking to and **what** you're about to call — before your agent executes anything. 100% free. No fees. No signup. No API keys.
 
